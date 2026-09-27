@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>С Днём Рождения, Папа!</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      user-select: none;
+      -webkit-user-select: none;
+    }
+    body, html {
+      margin: 0;
+      padding: 0;
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+      font-family: Arial, sans-serif;
+      background-color: #1a1a2e;
+    }
+    
+    /* Фоновый коллаж из первого фото */
+    .bg-container {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100"><rect width="100%" height="100%" fill="%231a1a2e"/></svg>');
+      background-size: cover;
+      background-position: center;
+      filter: brightness(0.75);
+      z-index: 1;
+    }
+
+    .score-board {
+      position: absolute;
+      top: 20px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: rgba(0, 0, 0, 0.75);
+      padding: 12px 24px;
+      border-radius: 25px;
+      color: #ffffff;
+      font-size: 20px;
+      font-weight: bold;
+      z-index: 10;
+      border: 2px solid #ffcc00;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.5);
+      text-align: center;
+    }
+
+    /* Персонаж с круглым фото */
+    .character {
+      position: absolute;
+      width: 130px;
+      height: 130px;
+      border-radius: 50%;
+      border: 4px solid #ffcc00;
+      box-shadow: 0 0 20px rgba(255, 204, 0, 0.9);
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
+      cursor: pointer;
+      z-index: 5;
+      transition: transform 0.1s ease;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+    
+    .character::after {
+      content: '🎂';
+      position: absolute;
+      bottom: -5px;
+      right: -5px;
+      font-size: 32px;
+    }
+
+    .character:active {
+      transform: scale(0.9);
+    }
+
+    .gift-box {
+      display: none;
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      font-size: 100px;
+      cursor: pointer;
+      z-index: 10;
+      animation: pulse 1.2s infinite alternate;
+    }
+
+    @keyframes pulse {
+      0% { transform: translate(-50%, -50%) scale(1); }
+      100% { transform: translate(-50%, -50%) scale(1.15); }
+    }
+
+    .modal {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.92);
+      z-index: 100;
+      justify-content: center;
+      align-items: center;
+      flex-direction: column;
+    }
+
+    video {
+      max-width: 90%;
+      max-height: 80%;
+      border-radius: 12px;
+    }
+
+    .close-btn {
+      margin-top: 15px;
+      padding: 10px 25px;
+      background: #ff4757;
+      color: white;
+      border: none;
+      border-radius: 20px;
+      font-size: 16px;
+      cursor: pointer;
+      font-weight: bold;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="bg-container" id="bg"></div>
+
+  <div class="score-board">
+    Счёт: <span id="score">0</span> / 45
+  </div>
+
+  <div class="character" id="char"></div>
+
+  <div class="gift-box" id="gift">🎁</div>
+
+  <div class="modal" id="videoModal">
+    <video id="myVideo" controls playsinline>
+      <source src="video.mp4" type="video/mp4">
+      Ваш браузер не поддерживает видео.
+    </video>
+    <button class="close-btn" onclick="closeModal()">Закрыть</button>
+  </div>
+
+  <script>
+    // Вшитые фоновые изображения и фото персонажа
+    const collageImg = "5885_2.png";
+    const avatarImg = "5897.jpg";
+
+    document.getElementById('bg').style.backgroundImage = `url('${collageImg}')`;
+    document.getElementById('char').style.backgroundImage = `url('${avatarImg}')`;
+
+    let score = 0;
+    const targetScore = 45;
+    const char = document.getElementById('char');
+    const scoreEl = document.getElementById('score');
+    const gift = document.getElementById('gift');
+    const modal = document.getElementById('videoModal');
+    const video = document.getElementById('myVideo');
+
+    function moveCharacter() {
+      const padding = 140;
+      const maxX = window.innerWidth - padding;
+      const maxY = window.innerHeight - padding;
+      
+      const randomX = Math.max(20, Math.floor(Math.random() * maxX));
+      const randomY = Math.max(100, Math.floor(Math.random() * maxY));
+
+      char.style.left = randomX + 'px';
+      char.style.top = randomY + 'px';
+    }
+
+    char.addEventListener('click', () => {
+      score += 5;
+      scoreEl.textContent = score;
+
+      if (score >= targetScore) {
+        char.style.display = 'none';
+        gift.style.display = 'block';
+      } else {
+        moveCharacter();
+      }
+    });
+
+    gift.addEventListener('click', () => {
+      modal.style.display = 'flex';
+      video.play();
+    });
+
+    function closeModal() {
+      modal.style.display = 'none';
+      video.pause();
+    }
+
+    moveCharacter();
+  </script>
+</body>
+</html>
