@@ -20,20 +20,21 @@
       background-color: #1a1a2e;
     }
     
-    /* Фоновый коллаж из первого фото */
+    /* Фоновое изображение */
     .bg-container {
       position: absolute;
       top: 0;
       left: 0;
       width: 100%;
       height: 100%;
-      background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100"><rect width="100%" height="100%" fill="%231a1a2e"/></svg>');
+      background-image: url('bg.jpg');
       background-size: cover;
       background-position: center;
-      filter: brightness(0.75);
+      filter: brightness(0.65);
       z-index: 1;
     }
 
+    /* Верхняя панель счета */
     .score-board {
       position: absolute;
       top: 20px;
@@ -51,7 +52,7 @@
       text-align: center;
     }
 
-    /* Персонаж с круглым фото */
+    /* Летающий персонаж */
     .character {
       position: absolute;
       width: 130px;
@@ -59,6 +60,7 @@
       border-radius: 50%;
       border: 4px solid #ffcc00;
       box-shadow: 0 0 20px rgba(255, 204, 0, 0.9);
+      background-image: url('avatar.jpg');
       background-size: cover;
       background-position: center;
       background-repeat: no-repeat;
@@ -82,6 +84,7 @@
       transform: scale(0.9);
     }
 
+    /* Подарочная коробка */
     .gift-box {
       display: none;
       position: absolute;
@@ -99,6 +102,7 @@
       100% { transform: translate(-50%, -50%) scale(1.15); }
     }
 
+    /* Модальное окно для видео */
     .modal {
       display: none;
       position: fixed;
@@ -134,7 +138,7 @@
 </head>
 <body>
 
-  <div class="bg-container" id="bg"></div>
+  <div class="bg-container"></div>
 
   <div class="score-board">
     Счёт: <span id="score">0</span> / 45
@@ -153,13 +157,6 @@
   </div>
 
   <script>
-    // Вшитые фоновые изображения и фото персонажа
-    const collageImg = "5885_2.png";
-    const avatarImg = "5897.jpg";
-
-    document.getElementById('bg').style.backgroundImage = `url('${collageImg}')`;
-    document.getElementById('char').style.backgroundImage = `url('${avatarImg}')`;
-
     let score = 0;
     const targetScore = 45;
     const char = document.getElementById('char');
